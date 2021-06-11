@@ -16,10 +16,10 @@
 * http://localhost:8080/swagger-ui.html#/
 
 ## Para subir o Front-end
-* Navegue ate a pasta front-end, abra um terminal a partir desta e execute no terminal
+* Navegue para a pasta front-end, abra um terminal a partir desta e execute no terminal
 ```shell
 ng serve
 ```
 
 ## Para acessar o Front-end pela URL
-*http://localhost:4200
+* http://localhost:4200
