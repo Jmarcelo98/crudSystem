@@ -18,6 +18,6 @@ public interface InterfaceClientService {
 
 	ResponseEntity<Object> deletar(Long id);
 	
-	ResponseEntity<Object> buscarCepApi(String cep);
+//	ResponseEntity<Object> buscarCepApi(String cep);
 
 }

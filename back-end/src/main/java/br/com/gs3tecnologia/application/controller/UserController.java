@@ -18,10 +18,11 @@ public class UserController {
 	@Autowired	
 	private InterfaceUserService interfaceUserService;
 	
+
 	@SuppressWarnings("unchecked")
 	@GetMapping
-	public @ResponseBody ResponseEntity<User> buscarUsuario(@RequestBody User user) {
-		return (ResponseEntity<User>) interfaceUserService.validarUsuario(user.getUsername(), user.getPassword());
+	public @ResponseBody ResponseEntity<User> buscarUsuario(@RequestBody String username, String senha) {
+		return (ResponseEntity<User>) interfaceUserService.validarUsuario(username, senha);
 	}
 	
 		

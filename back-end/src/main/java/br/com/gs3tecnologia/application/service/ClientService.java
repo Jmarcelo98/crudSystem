@@ -61,11 +61,11 @@ public class ClientService implements InterfaceClientService {
 
 	}
 
-	@Override
-	public ResponseEntity<Object> buscarCepApi(String cep) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public ResponseEntity<Object> buscarCepApi(String cep) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 //	@GetMapping(value = "/cliente")
 //    public @ResponseBody List<Pessoa> consultar() {

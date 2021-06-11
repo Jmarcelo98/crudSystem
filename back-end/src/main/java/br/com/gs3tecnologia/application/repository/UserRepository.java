@@ -7,9 +7,8 @@ import br.com.gs3tecnologia.application.entity.User;
 
 @Repository
 
-public interface UserRepository extends JpaRepository<User, Long>{
-	
+public interface UserRepository extends JpaRepository<User, Long> {
+
 	User findByUsernameAndPassword(String username, String senha);
 
-	
 }
