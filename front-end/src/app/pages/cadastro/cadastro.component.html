@@ -1,0 +1,26 @@
+<form [formGroup]="cadastroForm">
+
+  <div class="row">
+
+    <div class="col-8">
+      <span class="form-label">Nome</span>
+      <input class="form-control form-control-lg" onkeypress="return event.charCode >= 58 || event.charCode <= 47" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" minlength="3"
+        maxlength="100" placeholder="NOME" type="text" required="requerid">
+    </div>
+
+  </div>
+
+  <div class="espacamento"></div>
+
+  <div class="row">
+
+    <div class="col-4">
+      <span class="form-label">CPF</span>
+      <input class="form-control form-control-lg cpf-mask"
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Ex: 000.000.000-00"
+        pattern="[0-9]+$" maxlength="11" type="text" required="requerid">
+    </div>
+
+  </div>
+
+</form>
