@@ -1,4 +1,3 @@
-import { ClienteService } from './service/cliente.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,7 +19,7 @@ import { CadastroComponent } from './pages/cadastro/cadastro.component';
     ClienteComponent,
     HomeComponent,
     PaginaNaoEncontradaComponent,
-    CadastroComponent
+    CadastroComponent,
   ],
   imports: [
     BrowserModule,

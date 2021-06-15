@@ -1,11 +1,57 @@
-<form [formGroup]="cadastroForm">
+<form [formGroup]="cadastroForm" (ngSubmit)="cadastrar()">
 
   <div class="row">
 
-    <div class="col-8">
-      <span class="form-label">Nome</span>
-      <input class="form-control form-control-lg" onkeypress="return event.charCode >= 58 || event.charCode <= 47" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" minlength="3"
-        maxlength="100" placeholder="NOME" type="text" required="requerid">
+    <div class="col-md-6">
+      <label class="form-label" for="nome">NOME</label>
+      <input class="form-control form-control-lg" onkeypress="return event.charCode >= 58 || event.charCode <= 47"
+        pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" id="nome" minlength="3" maxlength="100"
+        formControlName="nome" placeholder="NOME" type="text" [ngClass]="{ 'is-invalid': submitted && f.nome.errors }">
+
+      <div *ngIf="submitted && f.nome.errors" class="invalid-feedback">
+        <div *ngIf="f.nome.errors.required">O campo nome é obrigatório</div>
+        <div *ngIf="f.nome.errors.minlength">A nome deve conter no minimo 3 caracteres</div>
+      </div>
+
+
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label" for="email">EMAIL</label>
+      <input class="form-control form-control-lg" formControlName="email" placeholder="Digite um email válido"
+        type="email" id="email" [ngClass]="{'is-invalid': submitted && f.email.errors}">
+
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        <div *ngIf="f.email.errors.required">O campo email é obrigatório</div>
+        <div *ngIf="f.email.errors.email">O email é inválido</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="espacamento"></div>
+
+  <div class="row ">
+
+    <div class="col-md-4">
+      <label class="form-label" for="telefone">TELEFONE</label>
+      <input class="form-control form-control-lg cel-sp-mask" [ngClass]="{'is-invalid': submitted && f.telefones.errors}" formControlName="telefones" placeholder="Ex: (00) 00000-0000"
+        type="text" id="telefone" >
+
+        <div *ngIf="submitted && f.telefones.errors" class="invalid-feedback">
+          <div *ngIf="f.telefones.errors.required">O campo telefone tem que ter no MINIMO 1 (UM) telefone cadastrado</div>
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label" for="cpf">CPF</label>
+      <input class="form-control form-control-lg cpf-mask" formControlName="cpf" placeholder="Ex: 000.000.000-00" type="text" id="cpf" [ngClass]="{'is-invalid': submitted && f.cpf.errors}">
+
+      <div *ngIf="submitted && f.cpf.errors" class="invalid-feedback">
+        <div *ngIf="f.cpf.errors.required">O campo cpf é obrigatório</div>
+        <div *ngIf="f.cpf.errors.minlength">O campo cpf deve conter 11 caracteres</div>
+      </div>
     </div>
 
   </div>
@@ -14,13 +60,61 @@
 
   <div class="row">
 
-    <div class="col-4">
-      <span class="form-label">CPF</span>
-      <input class="form-control form-control-lg cpf-mask"
-        onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Ex: 000.000.000-00"
-        pattern="[0-9]+$" maxlength="11" type="text" required="requerid">
+    <div class="col-lg-2 col-sm">
+      <label class="form-label" for="cep">CEP</label>
+      <input type="text" class="form-control form-control-lg cep-mask" id="cep" (blur)="buscarEndereco()"
+        placeholder="Ex: 00000-000" [(ngModel)]="pegandoCep" formControlName="cep"
+        [ngClass]="{'is-invalid': (submitted && f.cep.errors) || cepInvalido }">
+
+      <div *ngIf="(submitted && f.cep.errors)" class="invalid-feedback">
+        <div *ngIf="f.cep.errors.required">O campo cep é obrigatório</div>
+        <div *ngIf="f.cep.errors.minlength">O campo cep deve conter 8 caracteres</div>
+      </div>
+
+      <div *ngIf="cepInvalido" class="invalid-feedback">
+        <div *ngIf="cepInvalido">O cep digitado é inválido</div>
+      </div>
+
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+      <label class="form-label" for="cep">LOGRADOURO</label>
+      <input type="text" class="form-control form-control-lg" readonly formControlName="logradouro">
+    </div>
+
+
+    <div class="col-md-6 col-sm-6">
+      <label class="form-label" for="cep">BAIRRO</label>
+      <input type="text" class="form-control form-control-lg" readonly formControlName="bairro">
+    </div>
+
+
+    <div class="col-md-6 col-sm-6">
+      <label class="form-label" for="cep">CIDADE</label>
+      <input type="text" class="form-control form-control-lg" readonly formControlName="cidade">
     </div>
 
   </div>
+
+  <div class="espacamento"></div>
+
+  <div class="row">
+
+    <div class="col-lg-2 col-sm-2 col-3">
+      <label class="form-label" for="cep">UF</label>
+      <input type="text" class="form-control form-control-lg" readonly maxlength="2" formControlName="uf">
+    </div>
+
+    <div class="col-md-6 col-sm-6 col-12">
+      <label class="form-label" for="cep">COMPLEMENTO</label>
+      <input type="text" class="form-control form-control-lg" formControlName="complemento">
+    </div>
+
+  </div>
+
+  <div class="espacamento"></div>
+
+  <button class="btn btn-primary espacamento">Cadastrar</button>
+
 
 </form>

@@ -3,7 +3,7 @@ export interface Cliente {
   nome?: string;
   cpf?: string;
   cep?: string;
-  logradoura?: string;
+  logradouro?: string;
   bairro?: string;
   cidade?: string;
   uf?: string;

@@ -3,6 +3,6 @@ export class Endereco {
   logradouro: string;
   complemento: string;
   bairro: string;
-  cidade: string;
+  localidade: string;
   uf: string;
 }
