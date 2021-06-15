@@ -1,5 +1,6 @@
 package br.com.gs3tecnologia.application.service;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,12 +39,26 @@ public class ClientService implements InterfaceClientService {
 
 	@Override
 	public Client salvar(Client cliente) {
+
+		if (cliente.getComplemento() == null) {
+			cliente.setComplemento("");
+		}
+
+		toUpperCase(cliente);
 		
-		cliente.getCpf().replace(".", "").replace("-", "").replace(".", "");
-		cliente.getCep().replace("-", "");
-		cliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-", "");
+		if (cliente.getComplemento() == "") {
+			cliente.setComplemento(null);
+		}
 		
-		 return clientRepository.save(cliente);
+		String replaceCep = cliente.getCep().replace("-", "");
+		String replaceCpf = cliente.getCpf().replace(".", "").replace("-", "");
+		String replaceTelefones = cliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-", "");
+
+		cliente.setCep(replaceCep);
+		cliente.setCpf(replaceCpf);
+		cliente.setTelefones(replaceTelefones);
+
+		return clientRepository.save(cliente);
 	}
 
 	@Override
@@ -66,16 +81,23 @@ public class ClientService implements InterfaceClientService {
 
 	}
 
-//	@Override
-//	public ResponseEntity<Object> buscarCepApi(String cep) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-	
-//	@GetMapping(value = "/cliente")
-//    public @ResponseBody List<Pessoa> consultar() {
-//
-//        return pessoaService.consultar();
-//    }
+	public static void toUpperCase(Object obj) {
+		try {
+
+			if (obj.getClass() == null) {
+
+			} else {
+				for (Field f : obj.getClass().getDeclaredFields()) {
+					f.setAccessible(true);
+					if (f.getType().equals(String.class)) {
+						f.set(obj, f.get(obj).toString().toUpperCase());
+					}
+				}
+			}
+
+		} catch (IllegalAccessException exc) {
+			exc.printStackTrace();
+		}
+	}
 
 }
