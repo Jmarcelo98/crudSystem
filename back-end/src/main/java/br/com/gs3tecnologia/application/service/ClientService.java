@@ -1,8 +1,11 @@
 package br.com.gs3tecnologia.application.service;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
+
+import javax.swing.text.MaskFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +24,24 @@ public class ClientService implements InterfaceClientService {
 
 	@Override
 	public List<Client> consultarTodos() {
-		return clientRepository.findAll();
+
+		List<Client> teste = clientRepository.findAll();
+
+		for (int i = 0; i < teste.size(); i++) {
+
+			Client elemento = teste.get(i);
+
+			String cpfFormatado = formatString(elemento.getCpf(), "###.###.###-##");
+			String cepFormatado = formatString(elemento.getCep(), "#####-###");
+			String telefonesFormatado = formatString(elemento.getTelefones(), "(##) #####-####");
+
+			elemento.setCpf(cpfFormatado);
+			elemento.setCep(cepFormatado);
+			elemento.setTelefones(telefonesFormatado);
+
+		}
+
+		return teste;
 	}
 
 	@Override
@@ -45,14 +65,15 @@ public class ClientService implements InterfaceClientService {
 		}
 
 		toUpperCase(cliente);
-		
+
 		if (cliente.getComplemento() == "") {
 			cliente.setComplemento(null);
 		}
-		
+
 		String replaceCep = cliente.getCep().replace("-", "");
 		String replaceCpf = cliente.getCpf().replace(".", "").replace("-", "");
-		String replaceTelefones = cliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-", "");
+		String replaceTelefones = cliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-",
+				"");
 
 		cliente.setCep(replaceCep);
 		cliente.setCpf(replaceCpf);
@@ -83,20 +104,25 @@ public class ClientService implements InterfaceClientService {
 
 	public static void toUpperCase(Object obj) {
 		try {
-
-			if (obj.getClass() == null) {
-
-			} else {
-				for (Field f : obj.getClass().getDeclaredFields()) {
-					f.setAccessible(true);
-					if (f.getType().equals(String.class)) {
-						f.set(obj, f.get(obj).toString().toUpperCase());
-					}
+			for (Field f : obj.getClass().getDeclaredFields()) {
+				f.setAccessible(true);
+				if (f.getType().equals(String.class)) {
+					f.set(obj, f.get(obj).toString().toUpperCase());
 				}
 			}
-
 		} catch (IllegalAccessException exc) {
 			exc.printStackTrace();
+		}
+	}
+
+	public String formatString(String value, String pattern) {
+		MaskFormatter mf;
+		try {
+			mf = new MaskFormatter(pattern);
+			mf.setValueContainsLiteralCharacters(false);
+			return mf.valueToString(value);
+		} catch (ParseException ex) {
+			return value;
 		}
 	}
 
