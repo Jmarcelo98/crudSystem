@@ -38,24 +38,19 @@ export class CadastroComponent implements OnInit {
     })
   }
 
-
-
   get f() {
     return this.cadastroForm.controls;
   }
 
-
-
   buscarEndereco(): void {
 
-    const stringFormatada: string = this.pegandoCep.replace("-", "")
-
-    this.viaCepService.buscarEndereco(stringFormatada).subscribe(cep => {
+    this.viaCepService.buscarEndereco(this.pegandoCep).subscribe(cep => {
 
       if (cep.logradouro == null || cep.localidade == null) {
         this.cepInvalido = true;
         return;
-
+      } else {
+        this.cepInvalido = false
       }
 
         this.cadastroForm.controls['logradouro'].setValue(cep.logradouro);
@@ -80,27 +75,11 @@ export class CadastroComponent implements OnInit {
     this.clienteService.cadastrar(this.cadastroForm.value).subscribe(
       data => {
         alert("Cliente cadastrado com sucesso")
+        window.location.reload()
       }, error => {
         console.log("error");
       }
     )
-
-
-    /*    const cadastrar = {
-         nome: this.cadastroForm.get('nome').value,
-         email: this.cadastroForm.get('email')?.value,
-         cpf: this.cadastroForm.get('cpf')?.value,
-         cep: this.cadastroForm.get('cep')?.value,
-         logradouro: this.cadastroForm.get('logradouro')?.value,
-         bairro: this.cadastroForm.get('bairro')?.value,
-         cidade: this.cadastroForm.get('cidade')?.value,
-         uf: this.cadastroForm.get('uf')?.value,
-         complemento: this.cadastroForm.get('complemento')?.value
-       }
-
-       console.log(cadastrar);
-    */
-
   }
 
 }

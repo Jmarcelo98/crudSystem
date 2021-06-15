@@ -19,4 +19,12 @@ export class ClienteService {
     return this.httpClient.post(this.API, cliente)
   }
 
+  excluir(id: number) {
+    return this.httpClient.delete(`${this.API}/${id}`)
+  }
+
+  atualizar(id:number ,cliente: Cliente){
+    return this.httpClient.put(`${this.API}/${id}`, cliente)
+  }
+
 }

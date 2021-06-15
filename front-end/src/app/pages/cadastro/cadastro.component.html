@@ -1,3 +1,4 @@
+<div class="container">
 <form [formGroup]="cadastroForm" (ngSubmit)="cadastrar()">
 
   <div class="row">
@@ -83,13 +84,13 @@
     </div>
 
 
-    <div class="col-md-6 col-sm-6">
+    <div class="col-md-6 col-sm-6 espacamento">
       <label class="form-label" for="cep">BAIRRO</label>
       <input type="text" class="form-control form-control-lg" readonly formControlName="bairro">
     </div>
 
 
-    <div class="col-md-6 col-sm-6">
+    <div class="col-md-6 col-sm-6 espacamento">
       <label class="form-label" for="cep">CIDADE</label>
       <input type="text" class="form-control form-control-lg" readonly formControlName="cidade">
     </div>
@@ -114,7 +115,7 @@
 
   <div class="espacamento"></div>
 
-  <button class="btn btn-primary espacamento">Cadastrar</button>
-
+  <button class="btn btn-primary espacamento" type="submit">Cadastrar</button>
 
 </form>
+</div>

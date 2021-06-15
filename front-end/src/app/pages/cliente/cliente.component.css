@@ -1,0 +1,27 @@
+.espacamento {
+  margin-top: 1%;
+}
+
+.editar {
+  background-image: url("../../../assets/img/icons/editarVerde.png");
+  background-repeat: no-repeat;
+  background-position: 0.55rem;
+  text-indent: 1rem;
+  height: 2.27rem
+}
+
+.editar:hover {
+  background-image: url("../../../assets/img/icons/editarBranco.png");
+}
+
+.excluir {
+  background-image: url("../../../assets/img/icons/lixeiraVermelha.png");
+  background-repeat: no-repeat;
+  background-position: 0.55rem;
+  text-indent: 1rem;
+  height: 2.27rem
+}
+
+.excluir:hover {
+  background-image: url("../../../assets/img/icons/lixeiraBranca.png");
+}
