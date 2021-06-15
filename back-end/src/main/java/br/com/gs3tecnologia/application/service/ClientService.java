@@ -38,7 +38,12 @@ public class ClientService implements InterfaceClientService {
 
 	@Override
 	public Client salvar(Client cliente) {
-		return clientRepository.save(cliente);
+		
+		cliente.getCpf().replace(".", "").replace("-", "").replace(".", "");
+		cliente.getCep().replace("-", "");
+		cliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-", "");
+		
+		 return clientRepository.save(cliente);
 	}
 
 	@Override
