@@ -84,6 +84,26 @@ public class ClientService implements InterfaceClientService {
 
 	@Override
 	public ResponseEntity<Client> atualizar(Long id, Client novoCliente) {
+		
+		if (novoCliente.getComplemento() == null) {
+			novoCliente.setComplemento("");
+		}
+
+		toUpperCase(novoCliente);
+
+		if (novoCliente.getComplemento() == "") {
+			novoCliente.setComplemento(null);
+		}
+		
+		String replaceCep = novoCliente.getCep().replace("-", "");
+		String replaceCpf = novoCliente.getCpf().replace(".", "").replace("-", "");
+		String replaceTelefones = novoCliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-",
+				"");
+
+		novoCliente.setCep(replaceCep);
+		novoCliente.setCpf(replaceCpf);
+		novoCliente.setTelefones(replaceTelefones);
+		
 		clientRepository.save(novoCliente);
 		return new ResponseEntity<>(novoCliente, HttpStatus.OK);
 	}

@@ -16,9 +16,11 @@ import br.com.gs3tecnologia.application.factory.InterfaceViaCepApi;
 public class ViaCepReqService implements InterfaceViaCepApi {
 	@Override
 	public String buscarPorCep(String cep) {
+		
+		String formatarCep = cep.replace("-", "");
 
 		RestTemplate template = new RestTemplate();
-		String url = "https://viacep.com.br/ws/" + cep + "/json/";
+		String url = "https://viacep.com.br/ws/" + formatarCep + "/json/";
 		ResponseEntity<String> response = template.exchange(url, HttpMethod.GET,
 				new HttpEntity<String>(createHeaders("user-public-notificacoes", "Za4qNXdyQNSa9YaA")), String.class);
 		return response.getBody();
