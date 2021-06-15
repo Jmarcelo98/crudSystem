@@ -2,6 +2,11 @@
   margin-top: 1%;
 }
 
+.formatarSearch{
+  padding: 0px;
+  margin-bottom: 1%;
+}
+
 .editar {
   background-image: url("../../../assets/img/icons/editarVerde.png");
   background-repeat: no-repeat;

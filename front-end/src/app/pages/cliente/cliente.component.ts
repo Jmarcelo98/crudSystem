@@ -22,6 +22,8 @@ export class ClienteComponent implements OnInit {
 
   cliente: Array<Cliente>
 
+  searchText: string;
+
   constructor(private formBuilder: FormBuilder, private clienteService: ClienteService, private viaCepService: ViaCepService) { }
 
   ngOnInit(): void {
