@@ -9,6 +9,7 @@
 		<version>2.5.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>br.com.gs3tecnologia</groupId>
 	<artifactId>back-end</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -20,7 +21,6 @@
 	</properties>
 
 	<dependencies>
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -61,6 +61,12 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>

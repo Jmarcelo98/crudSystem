@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gs3tecnologia.application.entity.Login;
-import br.com.gs3tecnologia.application.factory.InterfaceLoginService;
+import br.com.gs3tecnologia.application.entity.User;
+import br.com.gs3tecnologia.application.factory.InterfaceUserService;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/auth")
+public class UserController {
 
 	@Autowired
-	private InterfaceLoginService interfaceUserService;
+	private InterfaceUserService interfaceUserService;
 
 	@SuppressWarnings("unchecked")
 	@GetMapping
-	public @ResponseBody ResponseEntity<Login> buscarUsuario(String username, String senha) {
-		return (ResponseEntity<Login>) interfaceUserService.findByUsernameAndPassword(username, senha);
+	public @ResponseBody ResponseEntity<User> buscarUsuario(String username, String senha) {
+		return (ResponseEntity<User>) interfaceUserService.findByUsernameAndPassword(username, senha);
 	}
-
+	
 }
