@@ -23,3 +23,12 @@ ng serve
 
 ## Para acessar o Front-end pela URL
 * http://localhost:4200
+
+
+## Para acesar o banco em memória
+* Acesse -> http://localhost:8080/h2
+* Driver Class:	org.h2.Driver
+* JDBC URL: jdbc:h2:mem:testdb
+* User Name: sa
+* Password: 
+
