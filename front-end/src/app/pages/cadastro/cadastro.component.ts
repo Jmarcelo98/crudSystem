@@ -1,7 +1,7 @@
 import { ClienteService } from 'src/app/service/cliente.service'
 import { ViaCepService } from './../../service/via-cep.service'
 import { Component, OnInit } from '@angular/core'
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'
+import { FormArray, FormBuilder,  FormGroup, Validators } from '@angular/forms'
 
 
 @Component({
@@ -20,6 +20,7 @@ export class CadastroComponent implements OnInit {
   pegandoCpf: string
 
   cadastroForm: FormGroup
+  telefones: FormArray
 
   emailNaoPermitido: any
   cpfNaoPermitido:boolean
@@ -51,7 +52,7 @@ export class CadastroComponent implements OnInit {
     this.cadastroForm = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
-      telefones: [null, [Validators.required]],
+      telefones: this.formBuilder.array([ this.criarItem() ]) ,
       cpf: [null, [Validators.required, Validators.minLength(14)]],
       cep: [null, [Validators.required, Validators.minLength(8)]],
       logradouro: [null, Validators.required],
@@ -64,6 +65,21 @@ export class CadastroComponent implements OnInit {
 
   get f() {
     return this.cadastroForm.controls
+  }
+
+  addItem(): void {
+    this.telefones = this.cadastroForm.get('telefones') as FormArray;
+    this.telefones.push(this.criarItem());
+  }
+
+  criarItem(): FormGroup {
+    return this.formBuilder.group({
+      telefone: [null, [Validators.required]]
+    });
+  }
+
+  removerItem(i:number) {
+    this.telefones.removeAt(i)
   }
 
   buscarEndereco(): void {
