@@ -31,16 +31,11 @@ export class AppComponent implements OnInit {
       this.tipoLogado = 2
       this.logado = true
     }
-
-    if (this.router.url === '/cadastro') {
-      console.log("n tem acesso");
-
-    }
-
   }
 
   logout() {
     this.global.removerLocalStorage()
+    this.router.navigateByUrl("/")
   }
 
 }
