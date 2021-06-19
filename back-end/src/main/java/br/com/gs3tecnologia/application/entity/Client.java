@@ -19,52 +19,35 @@ public class Client implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "{name.not.blank}")
-	@NotNull(message = "{name.not.null}")
+
 	@Column
 	private String nome;
 
-	@NotBlank(message = "{cpf.not.blank}")
-	@NotNull(message = "{cpf.not.null}")
 	@Column(unique = true)
 	private String cpf;
 
-	@NotBlank(message = "{cep.not.blank}")
-	@NotNull(message = "{cep.not.null}")
 	@Column
 	private String cep;
 
-	@NotBlank(message = "{logradouro.not.blank}")
-	@NotNull(message = "{logradouro.not.null}")
 	@Column
 	private String logradouro;
 
-	@NotBlank(message = "{bairro.not.blank}")
-	@NotNull(message = "{bairro.not.null}")
 	@Column
 	private String bairro;
 
-	@NotBlank(message = "{cidade.not.blank}")
-	@NotNull(message = "{cidade.not.null}")
 	@Column
 	private String cidade;
 
-	@NotBlank(message = "{uf.not.blank}")
-	@NotNull(message = "{uf.not.null}")
 	@Column
 	private String uf;
 
 	@Column
 	private String complemento;
 
-	@NotBlank(message = "{telefones.not.blank}")
-	@NotNull(message = "{telefones.not.null}")
 	@Column
 	private String telefones;
 
-	@NotBlank(message = "{email.not.blank}")
-	@NotNull(message = "{email.not.null}")
-	@Email(message = "{email.not.valid}")
+	
 	@Column(unique = true)
 	private String email;
 	

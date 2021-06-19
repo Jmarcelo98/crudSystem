@@ -33,6 +33,7 @@ public class ClientService implements InterfaceClientService {
 
 			String cpfFormatado = formatString(elemento.getCpf(), "###.###.###-##");
 			String cepFormatado = formatString(elemento.getCep(), "#####-###");
+			
 			String telefonesFormatado = formatString(elemento.getTelefones(), "(##) #####-####");
 
 			elemento.setCpf(cpfFormatado);
