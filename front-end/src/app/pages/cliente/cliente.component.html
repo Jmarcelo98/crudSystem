@@ -1,10 +1,18 @@
-<div class="container-fluid">
+<div *ngIf="logado; then estaLogado else naoLogado"></div>
 
-  <div class="col-6 formatarSearch">
-    <input class="form-control" [(ngModel)]="searchText" type="text" placeholder="Search users">
-  </div>
+<ng-template #naoLogado>
+  <app-nao-logado></app-nao-logado>
+</ng-template>
 
-    <table class="table table-striped table-bordered">
+<ng-template #estaLogado>
+
+  <div class="container-fluid">
+
+    <div class="col-6 formatarSearch">
+      <input class="form-control" [(ngModel)]="searchText" type="text" placeholder="Search users">
+    </div>
+
+    <table class="table  table-light table-striped table-bordered">
       <thead>
         <tr>
           <th scope="col">NOME</th>
@@ -17,8 +25,19 @@
           <th scope="col">CIDADE</th>
           <th scope="col">UF</th>
           <th scope="col">COMPLEMENTO</th>
-          <th scope="col">EDITAR</th>
-          <th scope="col">EXCLUIR</th>
+
+          <div *ngIf="admin; then editar"></div>
+          <div *ngIf="admin; then excluir"></div>
+
+          <ng-template #editar>
+            <th scope="col">EDITAR</th>
+          </ng-template>
+
+          <ng-template #excluir>
+            <th scope="col">EXCLUIR</th>
+          </ng-template>
+
+
         </tr>
       </thead>
       <tbody>
@@ -34,38 +53,51 @@
           <td>{{item.cidade}}</td>
           <td>{{item.uf}}</td>
           <td>{{item.complemento}}</td>
-          <td>
 
-            <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" (click)="carregarInfoModal(item)"
-              class="btn btn-outline-success editar">
-              Editar
-            </button>
+          <div *ngIf="admin then botaoEditar"></div>
+          <div *ngIf="admin then botaoExcluir"></div>
 
-          </td>
-          <td>
+          <ng-template #botaoEditar>
 
-            <button type="button" class="btn btn-outline-danger excluir" (click)="excluir(item)">
-              Excluir
-            </button>
+            <td>
+              <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg"
+                (click)="carregarInfoModal(item)" class="btn btn-outline-success editar">
+                Editar
+              </button>
 
-          </td>
+            </td>
+
+          </ng-template>
+
+          <ng-template #botaoExcluir>
+
+            <td>
+
+              <button type="button" class="btn btn-outline-danger excluir" (click)="excluirCliente(item)">
+                Excluir
+              </button>
+
+            </td>
+
+          </ng-template>
+
         </tr>
       </tbody>
     </table>
 
 
-  <!-- Modal -->
-  <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog"
-    aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Editar cliente</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" style="margin-right: 0.2em;">x</span>
-          </button>
-        </div>
-        <div class="modal-body">
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar cliente</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" style="margin-right: 0.2em;">x</span>
+            </button>
+          </div>
+          <div class="modal-body">
 
             <form [formGroup]="editForm">
 
@@ -73,8 +105,7 @@
 
                 <div class="col-md-6">
                   <label class="form-label" for="nome">NOME</label>
-                  <input class="form-control form-control-lg" id="nome"
-                    formControlName="nome" readonly>
+                  <input class="form-control form-control-lg" id="nome" formControlName="nome" readonly>
 
                 </div>
 
@@ -176,12 +207,16 @@
 
           </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" (click)="atualizar(editForm.value)" data-dismiss="modal">Salvar alterações</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" (click)="atualizar(editForm.value)"
+              data-dismiss="modal">Salvar
+              alterações</button>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
 
-</div>
+</ng-template>

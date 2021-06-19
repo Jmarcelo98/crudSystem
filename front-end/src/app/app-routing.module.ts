@@ -7,11 +7,13 @@ import { ClienteComponent } from './pages/cliente/cliente.component';
 import { PaginaNaoEncontradaComponent } from './pages/pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 const routes: Routes = [
-  {path: "", component: HomeComponent},
-  {path: "login", component: LoginComponent},
-  {path: "cliente", component: ClienteComponent},
-  {path: "cadastro", component: CadastroComponent},
-  {path: "**", component: PaginaNaoEncontradaComponent}
+  { path: "", component: HomeComponent },
+  { path: "inicio", component: HomeComponent },
+  { path: "home", component: HomeComponent },
+  { path: "login", component: LoginComponent },
+  { path: "clientes", component: ClienteComponent },
+  { path: "cadastro", component: CadastroComponent },
+  { path: "**", component: PaginaNaoEncontradaComponent }
 ];
 
 @NgModule({

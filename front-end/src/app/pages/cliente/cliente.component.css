@@ -30,3 +30,7 @@
 .excluir:hover {
   background-image: url("../../../assets/img/icons/lixeiraBranca.png");
 }
+
+.centralizar {
+  text-align: center;
+}

@@ -12,6 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginaNaoEncontradaComponent } from './pages/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { ClienteComponent } from './pages/cliente/cliente.component';
 import { CadastroComponent } from './pages/cadastro/cadastro.component';
+import { Global } from './global';
+import { NaoLogadoComponent } from './components/nao-logado/nao-logado.component';
+import { NaoAutorizadoComponent } from './components/nao-autorizado/nao-autorizado.component';
+
 
 @NgModule({
   declarations: [
@@ -21,6 +25,8 @@ import { CadastroComponent } from './pages/cadastro/cadastro.component';
     HomeComponent,
     PaginaNaoEncontradaComponent,
     CadastroComponent,
+    NaoLogadoComponent,
+    NaoAutorizadoComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +37,7 @@ import { CadastroComponent } from './pages/cadastro/cadastro.component';
     HttpClientModule,
     Ng2SearchPipeModule
   ],
-  providers: [],
+  providers: [Global],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

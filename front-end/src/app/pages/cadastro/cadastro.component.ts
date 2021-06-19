@@ -1,7 +1,7 @@
 import { ClienteService } from 'src/app/service/cliente.service';
 import { ViaCepService } from './../../service/via-cep.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 
 @Component({
@@ -18,11 +18,33 @@ export class CadastroComponent implements OnInit {
   pegandoCep: string
 
   cadastroForm: FormGroup;
+
+  emailNaoPermitido: boolean;
+  cpfNaoPermitido:boolean;
+
   submitted = false;
+
+  logado: boolean = false
+  permitido: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private viaCepService: ViaCepService, private clienteService: ClienteService) { }
 
   ngOnInit(): void {
+
+    var restagarValor = window.localStorage.getItem("tipo")
+
+    if (restagarValor == null) {
+      this.logado = false
+    } else {
+      this.logado = true
+    }
+
+    if (restagarValor == '2') {
+      this.permitido = false
+    } else {
+      this.permitido = true
+    }
+
 
     this.cadastroForm = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3)]],
@@ -53,10 +75,10 @@ export class CadastroComponent implements OnInit {
         this.cepInvalido = false
       }
 
-        this.cadastroForm.controls['logradouro'].setValue(cep.logradouro);
-        this.cadastroForm.controls['bairro'].setValue(cep.bairro);
-        this.cadastroForm.controls['cidade'].setValue(cep.localidade);
-        this.cadastroForm.controls['uf'].setValue(cep.uf);
+      this.cadastroForm.controls['logradouro'].setValue(cep.logradouro);
+      this.cadastroForm.controls['bairro'].setValue(cep.bairro);
+      this.cadastroForm.controls['cidade'].setValue(cep.localidade);
+      this.cadastroForm.controls['uf'].setValue(cep.uf);
 
     }, error => {
       console.log(error);
@@ -72,12 +94,46 @@ export class CadastroComponent implements OnInit {
       return;
     }
 
-    this.clienteService.cadastrar(this.cadastroForm.value).subscribe(
-      data => {
-        alert("Cliente cadastrado com sucesso")
-        window.location.reload()
+    if (this.cepInvalido == true) {
+      return;
+    }
+
+    this.procurarPeloCpf(this.cadastroForm.get('cpf').value)
+
+    this.procurarPeloEmail(this.cadastroForm.get('email').value)
+
+    if (this.cpfNaoPermitido == false && this.emailNaoPermitido == false) {
+      this.clienteService.cadastrar(this.cadastroForm.value).subscribe(
+        data => {
+          alert("Cliente cadastrado com sucesso")
+          window.location.reload()
+        }, error => {
+          console.log(error);
+        }
+      )
+    }
+
+  }
+
+  procurarPeloEmail(email: string) {
+    this.clienteService.procurarEmail(email).subscribe(
+      sucesso => {
+        this.emailNaoPermitido = true
+        console.log("EMAIL JA CADASTRADO");
       }, error => {
-        console.log("error");
+        this.emailNaoPermitido = false
+      }
+    )
+  }
+
+  procurarPeloCpf(cpf: string) {
+    this.clienteService.procurarCpf(cpf).subscribe(
+      sucesso => {
+        this.cpfNaoPermitido = true
+        console.log("CPF JA CADASTRADO");
+
+      }, error => {
+        this.cpfNaoPermitido = false
       }
     )
   }

@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light corNav">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">HOME</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
@@ -9,21 +9,52 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 
-        <div class="navbar-nav" style="margin-left: 90%;">
-
-              <button class="btn btn-primary" routerLink="/login">LOGAR</button>
-
+        <div class="navbar-nav">
+          <div class="nav-link" *ngIf="tipoLogado == 1; then areaAdmin;"></div>
         </div>
 
+        <div class="navbar-nav">
+          <div class="nav-link" *ngIf="tipoLogado == 2; then areaComum"></div>
+        </div>
+
+        <ng-template #areaAdmin>
+          <a class="nav-link corItemNav disabled">Administrador
+          </a>
+          <a class="nav-link" href="/clientes">Clientes</a>
+          <a class="nav-link" href="/cadastro">Cadastrar</a>
+        </ng-template>
+
+        <ng-template #areaComum>
+          <a class="nav-link corItemNav disabled">Usuario</a>
+          <a class="nav-link" href="/clientes">Clientes</a>
+        </ng-template>
+
+        <div class="navbar-nav alinharADIreita">
+          <div *ngIf="logado; then deslogar else logar">
+          </div>
+        </div>
+
+        <ng-template #logar>
+          <div *ngIf=" router.url === '/login' ; else mostrar"></div>
+          <ng-template #mostrar>
+            <button class="btn btn-primary" routerLink="/login">LOGAR</button>
+          </ng-template>
+        </ng-template>
+
+
+        <ng-template #deslogar>
+          <button class="btn btn-primary" (click)="logout()">DESLOGAR</button>
+        </ng-template>
+
       </div>
+
+
+
     </div>
   </nav>
 
-<div style="padding: 1rem;"></div>
+  <div style="padding: 1rem;"></div>
 
   <router-outlet></router-outlet>
 
 </div>
-
-
-

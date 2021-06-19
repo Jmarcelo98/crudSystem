@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ClienteService } from 'src/app/service/cliente.service'
+import { Global } from 'src/app/global';
 
 
 @Component({
@@ -24,9 +25,30 @@ export class ClienteComponent implements OnInit {
 
   searchText: string;
 
-  constructor(private formBuilder: FormBuilder, private clienteService: ClienteService, private viaCepService: ViaCepService) { }
+  admin: boolean;
+
+  logado: boolean = false
+
+  constructor(private formBuilder: FormBuilder, private clienteService: ClienteService, private viaCepService: ViaCepService, private global: Global) { }
 
   ngOnInit(): void {
+
+    var restagarValor = window.localStorage.getItem("tipo")
+
+    if (restagarValor == null) {
+      this.logado = false
+    } else {
+      this.logado = true
+    }
+
+    if (restagarValor == "2") {
+      this.admin = false
+    }
+
+    if (restagarValor == "1") {
+      this.admin = true
+    }
+
 
     this.clienteService.buscarTodos().subscribe(
       cli => {
@@ -51,14 +73,15 @@ export class ClienteComponent implements OnInit {
 
   }
 
+  excluirCliente(cliente: Cliente) {
 
-  excluir(cliente: Cliente) {
     this.clienteService.excluir(cliente.id).subscribe(cli => {
       alert("Cliente excluido com sucesso")
       this.ngOnInit();
     }, error => {
       console.log("error")
     })
+
   }
 
   carregarInfoModal(cliente: Cliente) {
@@ -86,7 +109,7 @@ export class ClienteComponent implements OnInit {
       return;
     }
 
-    this.clienteService.atualizar(client.id ,client).subscribe(
+    this.clienteService.atualizar(client.id, client).subscribe(
       att => {
         alert("Cliente atualizado com sucesso")
         this.ngOnInit();
@@ -120,14 +143,4 @@ export class ClienteComponent implements OnInit {
   get f() {
     return this.editForm.controls;
   }
-
-  /* mostrarOcultarLista() {
-
-    if(this.mostrarCliente == false) {
-      this.mostrarCliente = true
-    } else {
-      this.mostrarCliente = false
-    }
-  } */
-
 }
