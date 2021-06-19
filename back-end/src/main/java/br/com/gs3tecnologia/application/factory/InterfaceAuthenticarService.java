@@ -1,6 +1,6 @@
 package br.com.gs3tecnologia.application.factory;
 
-public interface InterfaceUserService {
+public interface InterfaceAuthenticarService {
 
 	Object findByUsernameAndPassword(String username, String senha);
 	

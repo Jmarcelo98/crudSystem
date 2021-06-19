@@ -1,5 +1,5 @@
-insert into user (id, password, username, type) values  (null, '123456', 'admin', 1);
-insert into user (id, password, username, type) values  (null, '123456', 'comum', 2);
+insert into authenticar (id, password, username, type) values  (null, '123456', 'admin', 1);
+insert into authenticar (id, password, username, type) values  (null, '123456', 'comum', 2);
 
 insert into client (id, nome, cpf, cep, logradouro, bairro, cidade, uf, complemento, email, telefones) values (null, 'JOAO MARCELO DE JESUS MACEDO', '05455329146', '73251902', 'CONDOMINIO PARQUE COLORADO', 'SOBRADINHO', 'BRASILIA', 'DF', 'PRIMEIRA CASA DO CONDOMINIO', 'JOAOMARCELO588@GMAIL.COM', '61994322941');
 

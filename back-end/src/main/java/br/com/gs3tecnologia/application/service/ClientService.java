@@ -44,6 +44,7 @@ public class ClientService implements InterfaceClientService {
 		return teste;
 	}
 
+
 	@Override
 	public ResponseEntity<Client> consultarPeloId(Long id) {
 
@@ -56,35 +57,93 @@ public class ClientService implements InterfaceClientService {
 		}
 
 	}
+	
+
+	@Override
+	public Object consultarPeloCpf(String cpf) {
+
+		String cpfFormatado = cpf.replace(".", "").replace("-", "");
+		
+		Client cliente = clientRepository.findByCpf(cpfFormatado);
+		
+		if (cliente != null) {
+			return new ResponseEntity<>(cliente, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@Override
+	public Object consultarPeloEmail(String email) {
+
+		String emailUpper = email.toUpperCase();
+		
+		Client cliente = (Client) clientRepository.findByEmail(emailUpper);
+		
+		if (cliente != null) {
+			return new ResponseEntity<>(cliente, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+//	@Override
+//	public ResponseEntity<Boolean> consultarPeloEmail(String email) {
+//
+//		String emailUpper = email.toUpperCase();
+//		
+//		Client client = (Client) clientRepository.findByEmail(emailUpper);
+//		
+//		if (client == null) {
+//			return new ResponseEntity<>(false, HttpStatus.OK);
+//		} else {
+//			return new ResponseEntity<>(true, HttpStatus.OK);
+//		}
+//	}
 
 	@Override
 	public Client salvar(Client cliente) {
+		
+//		Object consultaEmail = clientRepository.findByEmail(cliente.getEmail());
+//		Object consultaCpf = clientRepository.findByCpf(cliente.getCpf());
+//		System.out.println(consultaCpf);
+//		System.out.println(consultaEmail);
+		
+//		if (consultaEmail != null) {
+//			return new ResponseEntity<>(false+"email", HttpStatus.BAD_REQUEST);
+//		} else if (consultaCpf != null) {
+//			return new ResponseEntity<>(false+"cpf", HttpStatus.BAD_REQUEST);
+//		} else {
+			
+			if (cliente.getComplemento() == null) {
+				cliente.setComplemento("");
+			}
 
-		if (cliente.getComplemento() == null) {
-			cliente.setComplemento("");
+			toUpperCase(cliente);
+
+			if (cliente.getComplemento() == "") {
+				cliente.setComplemento(null);
+			}
+
+			String replaceCep = cliente.getCep().replace("-", "");
+			String replaceCpf = cliente.getCpf().replace(".", "").replace("-", "");
+			String replaceTelefones = cliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-",
+					"");
+
+			cliente.setCep(replaceCep);
+			cliente.setCpf(replaceCpf);
+			cliente.setTelefones(replaceTelefones);
+
+			return clientRepository.save(cliente);
+//			return new ResponseEntity<>(cliente, HttpStatus.OK);
 		}
-
-		toUpperCase(cliente);
-
-		if (cliente.getComplemento() == "") {
-			cliente.setComplemento(null);
-		}
-
-		String replaceCep = cliente.getCep().replace("-", "");
-		String replaceCpf = cliente.getCpf().replace(".", "").replace("-", "");
-		String replaceTelefones = cliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-",
-				"");
-
-		cliente.setCep(replaceCep);
-		cliente.setCpf(replaceCpf);
-		cliente.setTelefones(replaceTelefones);
-
-		return clientRepository.save(cliente);
-	}
+		
+		
+//	}
 
 	@Override
 	public ResponseEntity<Client> atualizar(Long id, Client novoCliente) {
-		
+
 		if (novoCliente.getComplemento() == null) {
 			novoCliente.setComplemento("");
 		}
@@ -94,16 +153,16 @@ public class ClientService implements InterfaceClientService {
 		if (novoCliente.getComplemento() == "") {
 			novoCliente.setComplemento(null);
 		}
-		
+
 		String replaceCep = novoCliente.getCep().replace("-", "");
 		String replaceCpf = novoCliente.getCpf().replace(".", "").replace("-", "");
-		String replaceTelefones = novoCliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-",
-				"");
+		String replaceTelefones = novoCliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "")
+				.replace("-", "");
 
 		novoCliente.setCep(replaceCep);
 		novoCliente.setCpf(replaceCpf);
 		novoCliente.setTelefones(replaceTelefones);
-		
+
 		clientRepository.save(novoCliente);
 		return new ResponseEntity<>(novoCliente, HttpStatus.OK);
 	}

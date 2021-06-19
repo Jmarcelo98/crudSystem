@@ -11,13 +11,15 @@ public interface InterfaceClientService {
 	List<Client> consultarTodos();
 
 	ResponseEntity<Client> consultarPeloId(Long id);
+	
+	Object consultarPeloEmail(String email);
+	
+	Object consultarPeloCpf(String cpf);
 
 	Client salvar (Client cliente);
 
 	ResponseEntity<Client> atualizar(Long id, Client novoCliente);
 
 	ResponseEntity<Object> deletar(Long id);
-	
-//	ResponseEntity<Object> buscarCepApi(String cep);
 
 }

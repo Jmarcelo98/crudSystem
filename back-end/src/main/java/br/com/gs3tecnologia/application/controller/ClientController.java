@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping("/cliente")
 public class ClientController {
 
@@ -40,9 +40,26 @@ public class ClientController {
 		return interfaceClientService.consultarPeloId(id);
 	}
 
+//	@GetMapping(path = "email/{email}")
+//	public @ResponseBody ResponseEntity<Boolean> procurarPeloEmail(String email) {
+//		return interfaceClientService.consultarPeloEmail(email);
+//	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping(path = "email/{email}")
+	public @ResponseBody ResponseEntity<Client> procurarPeloEmail(@PathVariable(value = "email") String email) {
+		return (ResponseEntity<Client>) interfaceClientService.consultarPeloEmail(email);
+	}
+
+	@SuppressWarnings("unchecked")
+	@GetMapping(path = "cpf/{cpf}")
+	public @ResponseBody ResponseEntity<Client> procurarPeloCpf(@PathVariable(value = "cpf") String cpf) {
+		return (ResponseEntity<Client>) interfaceClientService.consultarPeloCpf(cpf);
+	}
+
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Cadastro Realizado com Sucesso"),
 			@ApiResponse(code = 400, message = "Erro ao Cadastrar"),
-			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 403, message = "	Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@PostMapping
 	public @ResponseBody Client salvar(@Valid @RequestBody Client cliente) {

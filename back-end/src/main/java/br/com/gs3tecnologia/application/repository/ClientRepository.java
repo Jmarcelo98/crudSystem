@@ -8,4 +8,7 @@ import br.com.gs3tecnologia.application.entity.Client;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
+	Client findByEmail(String email);
+	Client findByCpf(String cpf);
+	
 }

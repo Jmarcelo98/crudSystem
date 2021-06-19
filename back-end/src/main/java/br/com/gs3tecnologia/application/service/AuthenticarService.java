@@ -5,20 +5,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.gs3tecnologia.application.entity.User;
-import br.com.gs3tecnologia.application.factory.InterfaceUserService;
-import br.com.gs3tecnologia.application.repository.UserRepository;
+import br.com.gs3tecnologia.application.entity.Authenticar;
+import br.com.gs3tecnologia.application.factory.InterfaceAuthenticarService;
+import br.com.gs3tecnologia.application.repository.AuthenticarRepository;
 
 @Service
-public class UserService implements InterfaceUserService {
+public class AuthenticarService implements InterfaceAuthenticarService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private AuthenticarRepository authenticarRepository;
 
 	@Override
 	public Object findByUsernameAndPassword(String username, String senha) {
 		
-		User user = userRepository.findByUsernameAndPassword(username, senha);
+		Authenticar user = authenticarRepository.findByUsernameAndPassword(username, senha);
 		
 		if (user != null) {
 			return new ResponseEntity<>(user, HttpStatus.OK);

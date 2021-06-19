@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 
 @Entity
-public class User{
+public class Authenticar{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

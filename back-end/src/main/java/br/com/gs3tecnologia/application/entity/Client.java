@@ -65,7 +65,7 @@ public class Client implements Serializable {
 	@NotBlank(message = "{email.not.blank}")
 	@NotNull(message = "{email.not.null}")
 	@Email(message = "{email.not.valid}")
-	@Column
+	@Column(unique = true)
 	private String email;
 	
 

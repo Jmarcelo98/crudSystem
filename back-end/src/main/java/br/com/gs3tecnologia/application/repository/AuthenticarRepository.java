@@ -3,12 +3,12 @@ package br.com.gs3tecnologia.application.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.gs3tecnologia.application.entity.User;
+import br.com.gs3tecnologia.application.entity.Authenticar;
 
 @Repository
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface AuthenticarRepository extends JpaRepository<Authenticar, Long> {
 
-	User findByUsernameAndPassword(String username, String senha);
+	Authenticar findByUsernameAndPassword(String username, String senha);
 
 }
