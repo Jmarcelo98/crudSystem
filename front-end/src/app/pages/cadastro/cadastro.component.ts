@@ -1,7 +1,7 @@
-import { ClienteService } from 'src/app/service/cliente.service';
-import { ViaCepService } from './../../service/via-cep.service';
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ClienteService } from 'src/app/service/cliente.service'
+import { ViaCepService } from './../../service/via-cep.service'
+import { Component, OnInit } from '@angular/core'
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'
 
 
 @Component({
@@ -16,16 +16,18 @@ export class CadastroComponent implements OnInit {
 
   cepInvalido: boolean
   pegandoCep: string
+  pegandoEmail: string
+  pegandoCpf: string
 
-  cadastroForm: FormGroup;
+  cadastroForm: FormGroup
 
-  emailNaoPermitido: boolean;
-  cpfNaoPermitido:boolean;
+  emailNaoPermitido: any
+  cpfNaoPermitido:boolean
 
-  submitted = false;
+  submitted = false
 
   logado: boolean = false
-  permitido: boolean = false;
+  permitido: boolean = false
 
   constructor(private formBuilder: FormBuilder, private viaCepService: ViaCepService, private clienteService: ClienteService) { }
 
@@ -61,7 +63,7 @@ export class CadastroComponent implements OnInit {
   }
 
   get f() {
-    return this.cadastroForm.controls;
+    return this.cadastroForm.controls
   }
 
   buscarEndereco(): void {
@@ -69,38 +71,34 @@ export class CadastroComponent implements OnInit {
     this.viaCepService.buscarEndereco(this.pegandoCep).subscribe(cep => {
 
       if (cep.logradouro == null || cep.localidade == null) {
-        this.cepInvalido = true;
-        return;
+        this.cepInvalido = true
+        return
       } else {
         this.cepInvalido = false
       }
 
-      this.cadastroForm.controls['logradouro'].setValue(cep.logradouro);
-      this.cadastroForm.controls['bairro'].setValue(cep.bairro);
-      this.cadastroForm.controls['cidade'].setValue(cep.localidade);
-      this.cadastroForm.controls['uf'].setValue(cep.uf);
+      this.cadastroForm.controls['logradouro'].setValue(cep.logradouro)
+      this.cadastroForm.controls['bairro'].setValue(cep.bairro)
+      this.cadastroForm.controls['cidade'].setValue(cep.localidade)
+      this.cadastroForm.controls['uf'].setValue(cep.uf)
 
     }, error => {
-      console.log(error);
+      console.log(error)
     })
   }
 
 
   cadastrar(): void {
 
-    this.submitted = true;
+    this.submitted = true
 
     if (this.cadastroForm.invalid) {
-      return;
+      return
     }
 
     if (this.cepInvalido == true) {
-      return;
+      return
     }
-
-    this.procurarPeloCpf(this.cadastroForm.get('cpf').value)
-
-    this.procurarPeloEmail(this.cadastroForm.get('email').value)
 
     if (this.cpfNaoPermitido == false && this.emailNaoPermitido == false) {
       this.clienteService.cadastrar(this.cadastroForm.value).subscribe(
@@ -108,30 +106,27 @@ export class CadastroComponent implements OnInit {
           alert("Cliente cadastrado com sucesso")
           window.location.reload()
         }, error => {
-          console.log(error);
+          console.log(error)
         }
       )
     }
 
   }
 
-  procurarPeloEmail(email: string) {
-    this.clienteService.procurarEmail(email).subscribe(
+  procurarPeloEmail() {
+    this.clienteService.procurarEmail(this.pegandoEmail).subscribe(
       sucesso => {
         this.emailNaoPermitido = true
-        console.log("EMAIL JA CADASTRADO");
       }, error => {
         this.emailNaoPermitido = false
       }
     )
   }
 
-  procurarPeloCpf(cpf: string) {
-    this.clienteService.procurarCpf(cpf).subscribe(
+  procurarPeloCpf() {
+    this.clienteService.procurarCpf(this.pegandoCpf).subscribe(
       sucesso => {
         this.cpfNaoPermitido = true
-        console.log("CPF JA CADASTRADO");
-
       }, error => {
         this.cpfNaoPermitido = false
       }
