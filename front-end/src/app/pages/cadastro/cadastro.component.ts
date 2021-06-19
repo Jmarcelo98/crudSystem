@@ -20,8 +20,8 @@ export class CadastroComponent implements OnInit {
   pegandoCpf: string
 
   cadastroForm: FormGroup
-  telefones: FormArray
-
+  /* telefones: FormArray
+ */
   emailNaoPermitido: any
   cpfNaoPermitido:boolean
 
@@ -52,7 +52,8 @@ export class CadastroComponent implements OnInit {
     this.cadastroForm = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
-      telefones: this.formBuilder.array([ this.criarItem() ]) ,
+      telefones: [null, [Validators.required]],
+  /*     telefones: this.formBuilder.array([ this.criarItem() ]) , */
       cpf: [null, [Validators.required, Validators.minLength(14)]],
       cep: [null, [Validators.required, Validators.minLength(8)]],
       logradouro: [null, Validators.required],
@@ -67,7 +68,7 @@ export class CadastroComponent implements OnInit {
     return this.cadastroForm.controls
   }
 
-  addItem(): void {
+/*   addItem(): void {
     this.telefones = this.cadastroForm.get('telefones') as FormArray;
     this.telefones.push(this.criarItem());
   }
@@ -80,7 +81,7 @@ export class CadastroComponent implements OnInit {
 
   removerItem(i:number) {
     this.telefones.removeAt(i)
-  }
+  } */
 
   buscarEndereco(): void {
 

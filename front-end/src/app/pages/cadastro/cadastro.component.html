@@ -1,4 +1,4 @@
-<div *ngIf="logado; then estaLogado else naoLogado"></div>
+<div *ngIf="logado then estaLogado else naoLogado"></div>
 
 <ng-template #naoLogado>
   <app-nao-logado></app-nao-logado>
@@ -6,7 +6,7 @@
 
 <ng-template #estaLogado>
 
-  <div *ngIf="permitido; then autorizado else naoAutorizado"></div>
+  <div *ngIf="permitido then autorizado else naoAutorizado"></div>
 
   <ng-template #autorizado>
     <div class="container">
@@ -56,22 +56,22 @@
 
             <label class="form-label" for="telefone">TELEFONE</label>
 
-            <div formArrayName="telefones"
-              *ngFor="let item of cadastroForm.get('telefones')['controls']; let i = index ">
+            <!-- <div formArrayName="telefones"
+              *ngFor="let item of cadastroForm.get('telefones')['controls'] let i = index "> -->
 
-              <div [formGroupName]="i" style="display: flex;">
+              <!--  <div [formGroupName]="i" style="display: flex"> -->
                   <input class="form-control form-control-lg cel-sp-mask"
-                    [ngClass]="{'is-invalid': submitted && f.telefones.errors}" formControlName="telefone"
-                    placeholder="Ex: (00) 00000-0000" type="text" id="telefone">
-                    <div *ngIf="i >= 1 then apagarTel"></div>
-                  <ng-template #apagarTel>
-                    <button class="btn btn-danger" style="display: inline;" (click)="removerItem(i)">X</button>
+                    [ngClass]="{'is-invalid': submitted && f.telefones.errors}"
+                    placeholder="Ex: (00) 00000-0000" type="text" id="telefone" formControlName="telefones">
+                  <!--    <div *ngIf="i >= 1 then apagarTel"> </div>
+                  <ng-template #apagarTel >
+                    <button class="btn btn-danger" style="display: inline" (click)="removerItem(i)">X</button>
                   </ng-template>
 
-              </div>
-            </div>
+               </div> -->
+           <!--  </div> -->
 
-            <button type="button" class="btn btn-secondary" (click)="addItem()">Adicionar telefone</button>
+             <!-- <button type="button" class="btn btn-secondary" (click)="addItem()">Adicionar telefone</button> -->
 
             <div *ngIf="submitted && f.telefones.errors" class="invalid-feedback">
               <div *ngIf="f.telefones.errors.required">O campo telefone tem que ter no MINIMO 1 (UM) telefone cadastrado
@@ -163,7 +163,7 @@
 
 
 
-        <button class="btn btn-primary espacamento" type="submit" style="margin-left: 5%;">Cadastrar</button>
+        <button class="btn btn-primary espacamento" type="submit" style="margin-left: 5%">Cadastrar</button>
 
       </form>
     </div>
