@@ -96,15 +96,17 @@ export class CadastroComponent implements OnInit {
     this.submitted = true
 
     if (this.cadastroForm.invalid) {
-
-
-      if ((this.cadastroForm.get('celular').value == null || this.cadastroForm.get('celular').value == "") && (this.cadastroForm.get('comercial').value == null || this.cadastroForm.get('comercial').value == "") && (this.cadastroForm.get('residencial').value == null || this.cadastroForm.get('residencial').value == "")) {
-        this.telefoneInvalido = true;
-      } else {
-        this.telefoneInvalido = false;
-      }
       return
     }
+
+    if ((this.cadastroForm.get('celular').value == null || this.cadastroForm.get('celular').value == "") && (this.cadastroForm.get('comercial').value == null || this.cadastroForm.get('comercial').value == "") && (this.cadastroForm.get('residencial').value == null || this.cadastroForm.get('residencial').value == "")) {
+      this.telefoneInvalido = true;
+      return
+    } else {
+      this.telefoneInvalido = false;
+    }
+
+
 
     if (this.cepInvalido == true) {
       return
