@@ -29,6 +29,8 @@ export class ClienteComponent implements OnInit {
 
   logado: boolean = false
 
+  telefoneInvalido: boolean = false;
+
   constructor(private formBuilder: FormBuilder, private clienteService: ClienteService, private viaCepService: ViaCepService, private global: Global) { }
 
   ngOnInit(): void {
@@ -58,10 +60,13 @@ export class ClienteComponent implements OnInit {
       }
     )
 
+
     this.editForm = this.formBuilder.group({
       nome: [null],
       email: [null, [Validators.required, Validators.email]],
-      telefones: [null, [Validators.required]],
+      celular: [null],
+      comercial: [null],
+      residencial: [null],
       cpf: [null],
       cep: [null, [Validators.required, Validators.minLength(8)]],
       logradouro: [null, Validators.required],
@@ -90,7 +95,9 @@ export class ClienteComponent implements OnInit {
       id: [cliente.id],
       nome: [cliente.nome],
       email: [cliente.email, [Validators.required, Validators.email]],
-      telefones: [cliente.telefones, [Validators.required]],
+      celular: [cliente.celular, [Validators.minLength(12)]],
+      comercial: [cliente.comercial],
+      residencial: [cliente.residencial],
       cpf: [cliente.cpf],
       cep: [cliente.cep, [Validators.required, Validators.minLength(8)]],
       logradouro: [cliente.logradouro, Validators.required],
@@ -105,19 +112,26 @@ export class ClienteComponent implements OnInit {
 
     this.submitted = true;
 
+    if ((this.editForm.get('celular').value == null || this.editForm.get('celular').value == "") && (this.editForm.get('comercial').value == null || this.editForm.get('comercial').value == "") && (this.editForm.get('residencial').value == null || this.editForm.get('residencial').value == "")) {
+      this.telefoneInvalido = true;
+    } else {
+      this.telefoneInvalido = false;
+    }
+
     if (this.editForm.invalid) {
       return;
     }
 
-    this.clienteService.atualizar(client.id, client).subscribe(
-      att => {
-        alert("Cliente atualizado com sucesso")
-        this.ngOnInit();
-      }, error => {
-        console.log("error");
-      }
-    )
-
+    if (this.telefoneInvalido == false) {
+      this.clienteService.atualizar(client.id, client).subscribe(
+        att => {
+          alert("Cliente atualizado com sucesso")
+          window.location.reload()
+        }, error => {
+          console.log("error");
+        }
+      )
+    }
   }
 
   buscarEndereco(): void {

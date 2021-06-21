@@ -8,6 +8,8 @@ export interface Cliente {
   cidade?: string;
   uf?: string;
   complemento?: string;
-  telefones?: string;
+  celular?: string;
+  comercial?: string;
+  residencial?: string;
   email?: string;
 }

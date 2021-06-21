@@ -52,29 +52,32 @@
 
         <div class="row ">
 
-          <div class="col-md-5">
 
-            <label class="form-label" for="telefone">TELEFONE</label>
+          <div class="col-md-6">
 
-            <!-- <div formArrayName="telefones"
-              *ngFor="let item of cadastroForm.get('telefones')['controls'] let i = index "> -->
+            <div *ngIf="tipoTelefone == 2; then residencial"></div> -->
 
-              <!--  <div [formGroupName]="i" style="display: flex"> -->
-                  <input class="form-control form-control-lg cel-sp-mask"
-                    [ngClass]="{'is-invalid': submitted && f.telefones.errors}"
-                    placeholder="Ex: (00) 00000-0000" type="text" id="telefone" formControlName="telefones">
-                  <!--    <div *ngIf="i >= 1 then apagarTel"> </div>
-                  <ng-template #apagarTel >
-                    <button class="btn btn-danger" style="display: inline" (click)="removerItem(i)">X</button>
-                  </ng-template>
+            <label class="form-label" for="telefone">CELULAR</label>
 
-               </div> -->
-           <!--  </div> -->
+            <input class="form-control form-control-lg cel-sp-mask"
+              placeholder="Ex: (00) 00000-0000" type="text"
+              formControlName="celular" [ngClass]="{'is-invalid': submitted && telefoneInvalido}" >
 
-             <!-- <button type="button" class="btn btn-secondary" (click)="addItem()">Adicionar telefone</button> -->
+            <label class="form-label" for="telefone">COMERCIAL</label>
 
-            <div *ngIf="submitted && f.telefones.errors" class="invalid-feedback">
-              <div *ngIf="f.telefones.errors.required">O campo telefone tem que ter no MINIMO 1 (UM) telefone cadastrado
+            <input class="form-control form-control-lg phone-ddd-mask"[ngClass]="{'is-invalid': submitted && f.telefones.errors}" placeholder="Ex: (00) 0000-0000" type="text"
+              formControlName="comercial" [ngClass]="{'is-invalid': submitted && telefoneInvalido}" >
+
+            <label class="form-label" for="telefone">RESIDENCIAL</label>
+
+            <input class="form-control form-control-lg phone-ddd-mask"
+              [ngClass]="{'is-invalid': submitted && telefoneInvalido}" placeholder="Ex: (00) 0000-0000" type="text"
+              formControlName="residencial">
+
+
+            <div *ngIf="submitted && telefoneInvalido"
+              class="invalid-feedback">
+              <div *ngIf="telefoneInvalido">O campo telefone tem que ter no MINIMO 1 (UM) telefone cadastrado
               </div>
             </div>
 
@@ -103,7 +106,7 @@
 
         <div class="row">
 
-          <div class="col-lg-2 col-sm">
+          <div class="col-lg-3 col-sm">
             <label class="form-label" for="cep">CEP</label>
             <input type="text" class="form-control form-control-lg cep-mask" id="cep" (blur)="buscarEndereco()"
               placeholder="Ex: 00000-000" [(ngModel)]="pegandoCep" formControlName="cep"

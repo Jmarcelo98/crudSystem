@@ -9,7 +9,7 @@
   <div class="container-fluid">
 
     <div class="col-6 formatarSearch">
-      <input class="form-control" [(ngModel)]="searchText" type="text" placeholder="Search users">
+      <input class="form-control" [(ngModel)]="searchText" type="text" placeholder="Procurar cliente">
     </div>
 
     <table class="table  table-light table-striped table-bordered">
@@ -18,7 +18,9 @@
           <th scope="col">NOME</th>
           <th scope="col">CPF</th>
           <th scope="col">EMAIL</th>
-          <th scope="col">TELEFONE(S)</th>
+          <th scope="col">CELULAR</th>
+          <th scope="col">COMERCIAL</th>
+          <th scope="col">RESIDENCIAL</th>
           <th scope="col">CEP</th>
           <th scope="col">LOGRADOURO</th>
           <th scope="col">LOGRADOURO</th>
@@ -46,7 +48,9 @@
           <th scope="row">{{item.nome}}</th>
           <td>{{item.cpf}}</td>
           <td>{{item.email}}</td>
-          <td>{{item.telefones}}</td>
+          <td>{{item.celular}}</td>
+          <td>{{item.comercial}}</td>
+          <td>{{item.residencial}}</td>
           <td>{{item.cep}}</td>
           <td>{{item.logradouro}} </td>
           <td>{{item.bairro}}</td>
@@ -128,13 +132,23 @@
               <div class="row ">
 
                 <div class="col-md-4">
-                  <label class="form-label" for="telefone">TELEFONE</label>
+                  <label class="form-label" for="celular">CELULAR</label>
                   <input class="form-control form-control-lg cel-sp-mask"
-                    [ngClass]="{'is-invalid': submitted && f.telefones.errors}" formControlName="telefones"
-                    placeholder="Ex: (00) 00000-0000" type="text" id="telefone">
+                    [ngClass]="{'is-invalid': submitted && telefoneInvalido}" formControlName="celular"
+                    placeholder="Ex: (00) 00000-0000" type="text" id="celular">
 
-                  <div *ngIf="submitted && f.telefones.errors" class="invalid-feedback">
-                    <div *ngIf="f.telefones.errors.required">O campo telefone tem que ter no MINIMO 1 (UM) telefone
+                    <label class="form-label" for="comercial">COMERCIAL</label>
+                    <input class="form-control form-control-lg phone-ddd-mask"
+                    [ngClass]="{'is-invalid': submitted && telefoneInvalido}" formControlName="comercial"
+                    placeholder="Ex: (00) 0000-0000" type="text" id="comercial">
+
+                    <label class="form-label" for="residencial">RESIDENCIAL</label>
+                    <input class="form-control form-control-lg phone-ddd-mask"
+                    [ngClass]="{'is-invalid': submitted && telefoneInvalido}" formControlName="residencial"
+                    placeholder="Ex: (00) 0000-0000" type="text" id="residencial">
+
+                  <div *ngIf="submitted && telefoneInvalido" class="invalid-feedback">
+                    <div *ngIf="telefoneInvalido">O campo telefone tem que ter no MINIMO 1 (UM) telefone
                       cadastrado</div>
                   </div>
 
@@ -209,8 +223,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" (click)="atualizar(editForm.value)"
-              data-dismiss="modal">Salvar
+            <button type="button" class="btn btn-primary" (click)="atualizar(editForm.value)">Salvar
               alterações</button>
           </div>
         </div>

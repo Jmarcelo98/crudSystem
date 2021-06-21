@@ -1,7 +1,7 @@
 import { ClienteService } from 'src/app/service/cliente.service'
 import { ViaCepService } from './../../service/via-cep.service'
 import { Component, OnInit } from '@angular/core'
-import { FormArray, FormBuilder,  FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 
 @Component({
@@ -23,7 +23,9 @@ export class CadastroComponent implements OnInit {
   /* telefones: FormArray
  */
   emailNaoPermitido: any
-  cpfNaoPermitido:boolean
+  cpfNaoPermitido: boolean
+
+  telefoneInvalido: boolean = false;
 
   submitted = false
 
@@ -52,8 +54,9 @@ export class CadastroComponent implements OnInit {
     this.cadastroForm = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
-      telefones: [null, [Validators.required]],
-  /*     telefones: this.formBuilder.array([ this.criarItem() ]) , */
+      celular: [null],
+      comercial: [null],
+      residencial: [null],
       cpf: [null, [Validators.required, Validators.minLength(14)]],
       cep: [null, [Validators.required, Validators.minLength(8)]],
       logradouro: [null, Validators.required],
@@ -68,20 +71,20 @@ export class CadastroComponent implements OnInit {
     return this.cadastroForm.controls
   }
 
-/*   addItem(): void {
-    this.telefones = this.cadastroForm.get('telefones') as FormArray;
-    this.telefones.push(this.criarItem());
-  }
+  /*   addItem(): void {
+      this.telefones = this.cadastroForm.get('telefones') as FormArray;
+      this.telefones.push(this.criarItem());
+    }
 
-  criarItem(): FormGroup {
-    return this.formBuilder.group({
-      telefone: [null, [Validators.required]]
-    });
-  }
+    criarItem(): FormGroup {
+      return this.formBuilder.group({
+        telefone: [null, [Validators.required]]
+      });
+    }
 
-  removerItem(i:number) {
-    this.telefones.removeAt(i)
-  } */
+    removerItem(i:number) {
+      this.telefones.removeAt(i)
+    } */
 
   buscarEndereco(): void {
 
@@ -109,6 +112,12 @@ export class CadastroComponent implements OnInit {
 
     this.submitted = true
 
+    if (this.cadastroForm.get('celular').value == null && this.cadastroForm.get('comercial').value == null && this.cadastroForm.get('residencial').value == null) {
+      this.telefoneInvalido = true;
+    } else {
+      this.telefoneInvalido = false;
+    }
+
     if (this.cadastroForm.invalid) {
       return
     }
@@ -117,7 +126,7 @@ export class CadastroComponent implements OnInit {
       return
     }
 
-    if (this.cpfNaoPermitido == false && this.emailNaoPermitido == false) {
+     if (this.cpfNaoPermitido == false && this.emailNaoPermitido == false && this.telefoneInvalido == false) {
       this.clienteService.cadastrar(this.cadastroForm.value).subscribe(
         data => {
           alert("Cliente cadastrado com sucesso")
