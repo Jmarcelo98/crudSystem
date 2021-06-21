@@ -37,13 +37,16 @@
         <ng-template #logar>
           <div *ngIf=" router.url === '/login' ; else mostrar"></div>
           <ng-template #mostrar>
-            <button class="btn btn-primary" routerLink="/login">LOGAR</button>
+            <button class="btn" routerLink="/login">
+            <img src="../assets/img/icons/login.png" alt="Entrar"></button>
           </ng-template>
         </ng-template>
 
 
         <ng-template #deslogar>
-          <button class="btn btn-primary" (click)="logout()">DESLOGAR</button>
+          <button class="btn" (click)="logout()">
+            <img src="../assets/img/icons/logout.png" alt="Sair">
+          </button>
         </ng-template>
 
       </div>
