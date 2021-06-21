@@ -34,17 +34,27 @@ public class ClientService implements InterfaceClientService {
 			String cpfFormatado = formatString(elemento.getCpf(), "###.###.###-##");
 			String cepFormatado = formatString(elemento.getCep(), "#####-###");
 			
-			String telefonesFormatado = formatString(elemento.getTelefones(), "(##) #####-####");
+			if (elemento.getCelular() != null) {
+				String celularFormatado = formatString(elemento.getCelular(), "(##) #####-####");
+				elemento.setCelular(celularFormatado);
+			}
+			if (elemento.getComercial() != null) {
+				String comercialFormatado = formatString(elemento.getComercial(), "(##) ####-####");
+				elemento.setComercial(comercialFormatado);
+			} if (elemento.getResidencial() != null) {
+				String resedencialFormatado = formatString(elemento.getResidencial(), "(##) ####-####");
+				elemento.setResidencial(resedencialFormatado);
+			}
+		
 
 			elemento.setCpf(cpfFormatado);
 			elemento.setCep(cepFormatado);
-			elemento.setTelefones(telefonesFormatado);
+			
 
 		}
 
 		return teste;
 	}
-
 
 	@Override
 	public ResponseEntity<Client> consultarPeloId(Long id) {
@@ -58,29 +68,28 @@ public class ClientService implements InterfaceClientService {
 		}
 
 	}
-	
 
 	@Override
 	public Object consultarPeloCpf(String cpf) {
 
 		String cpfFormatado = cpf.replace(".", "").replace("-", "");
-		
+
 		Client cliente = clientRepository.findByCpf(cpfFormatado);
-		
+
 		if (cliente != null) {
 			return new ResponseEntity<>(cliente, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@Override
 	public Object consultarPeloEmail(String email) {
 
 		String emailUpper = email.toUpperCase();
-		
+
 		Client cliente = (Client) clientRepository.findByEmail(emailUpper);
-		
+
 		if (cliente != null) {
 			return new ResponseEntity<>(cliente, HttpStatus.OK);
 		} else {
@@ -88,59 +97,62 @@ public class ClientService implements InterfaceClientService {
 		}
 	}
 
-//	@Override
-//	public ResponseEntity<Boolean> consultarPeloEmail(String email) {
-//
-//		String emailUpper = email.toUpperCase();
-//		
-//		Client client = (Client) clientRepository.findByEmail(emailUpper);
-//		
-//		if (client == null) {
-//			return new ResponseEntity<>(false, HttpStatus.OK);
-//		} else {
-//			return new ResponseEntity<>(true, HttpStatus.OK);
-//		}
-//	}
-
 	@Override
 	public Client salvar(Client cliente) {
+
 		
-//		Object consultaEmail = clientRepository.findByEmail(cliente.getEmail());
-//		Object consultaCpf = clientRepository.findByCpf(cliente.getCpf());
-//		System.out.println(consultaCpf);
-//		System.out.println(consultaEmail);
-		
-//		if (consultaEmail != null) {
-//			return new ResponseEntity<>(false+"email", HttpStatus.BAD_REQUEST);
-//		} else if (consultaCpf != null) {
-//			return new ResponseEntity<>(false+"cpf", HttpStatus.BAD_REQUEST);
-//		} else {
-			
-			if (cliente.getComplemento() == null) {
-				cliente.setComplemento("");
-			}
-
-			toUpperCase(cliente);
-
-			if (cliente.getComplemento() == "") {
-				cliente.setComplemento(null);
-			}
-
-			String replaceCep = cliente.getCep().replace("-", "");
-			String replaceCpf = cliente.getCpf().replace(".", "").replace("-", "");
-			String replaceTelefones = cliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "").replace("-",
-					"");
-
-			cliente.setCep(replaceCep);
-			cliente.setCpf(replaceCpf);
-			cliente.setTelefones(replaceTelefones);
-
-			return clientRepository.save(cliente);
-//			return new ResponseEntity<>(cliente, HttpStatus.OK);
+		if (cliente.getComplemento() == null) {
+			cliente.setComplemento("");
 		}
-		
-		
-//	}
+		if (cliente.getCelular() == null) {
+			cliente.setCelular("");
+		}
+		if (cliente.getComercial() == null) {
+			cliente.setComercial("");
+		}
+		if (cliente.getResidencial() == null) {
+			cliente.setResidencial("");
+		}
+
+		toUpperCase(cliente);
+
+		if (cliente.getComplemento() == "") {
+			cliente.setComplemento(null);
+		}
+		if (cliente.getCelular() == "") {
+			cliente.setCelular(null);
+		}
+		if (cliente.getComercial() == "") {
+			cliente.setComercial(null);
+		}
+		if (cliente.getResidencial() == "") {
+			cliente.setResidencial(null);
+		}
+
+		String replaceCep = cliente.getCep().replace("-", "");
+		String replaceCpf = cliente.getCpf().replace(".", "").replace("-", "");
+
+		if (cliente.getCelular() != null) {
+			String replaceTelefone = cliente.getCelular().replace("(", "").replace(")", "").replace(" ", "")
+					.replace("-", "");
+			cliente.setCelular(replaceTelefone);
+		}
+		if (cliente.getComercial() != null) {
+			String replaceTelefone2 = cliente.getComercial().replace("(", "").replace(")", "").replace(" ", "")
+					.replace("-", "");
+			cliente.setComercial(replaceTelefone2);
+		}
+		if (cliente.getResidencial() != null) {
+			String replaceTelefone3 = cliente.getResidencial().replace("(", "").replace(")", "").replace(" ", "")
+					.replace("-", "");
+			cliente.setResidencial(replaceTelefone3);
+		}
+
+		cliente.setCep(replaceCep);
+		cliente.setCpf(replaceCpf);
+
+		return clientRepository.save(cliente);
+	}
 
 	@Override
 	public ResponseEntity<Client> atualizar(Long id, Client novoCliente) {
@@ -148,21 +160,53 @@ public class ClientService implements InterfaceClientService {
 		if (novoCliente.getComplemento() == null) {
 			novoCliente.setComplemento("");
 		}
+		if (novoCliente.getCelular() == null) {
+			novoCliente.setCelular("");
+		}
+		if (novoCliente.getComercial() == null) {
+			novoCliente.setComercial("");
+		}
+		if (novoCliente.getResidencial() == null) {
+			novoCliente.setResidencial("");
+		}
 
 		toUpperCase(novoCliente);
 
 		if (novoCliente.getComplemento() == "") {
 			novoCliente.setComplemento(null);
 		}
+		if (novoCliente.getCelular() == "") {
+			novoCliente.setCelular(null);
+		}
+		if (novoCliente.getComercial() == "") {
+			novoCliente.setComercial(null);
+		}
+		if (novoCliente.getResidencial() == "") {
+			novoCliente.setResidencial(null);
+		}
+		
+		if (novoCliente.getCelular() != null) {
+			String replaceTelefone = novoCliente.getCelular().replace("(", "").replace(")", "").replace(" ", "")
+					.replace("-", "");
+			novoCliente.setCelular(replaceTelefone);
+		}
+		if (novoCliente.getComercial() != null) {
+			String replaceTelefone2 = novoCliente.getComercial().replace("(", "").replace(")", "").replace(" ", "")
+					.replace("-", "");
+			novoCliente.setComercial(replaceTelefone2);
+		}
+		if (novoCliente.getResidencial() != null) {
+			String replaceTelefone3 = novoCliente.getResidencial().replace("(", "").replace(")", "").replace(" ", "")
+					.replace("-", "");
+			novoCliente.setResidencial(replaceTelefone3);
+		}
+
 
 		String replaceCep = novoCliente.getCep().replace("-", "");
 		String replaceCpf = novoCliente.getCpf().replace(".", "").replace("-", "");
-		String replaceTelefones = novoCliente.getTelefones().replace("(", "").replace(")", "").replace(" ", "")
-				.replace("-", "");
 
 		novoCliente.setCep(replaceCep);
 		novoCliente.setCpf(replaceCpf);
-		novoCliente.setTelefones(replaceTelefones);
 
 		clientRepository.save(novoCliente);
 		return new ResponseEntity<>(novoCliente, HttpStatus.OK);

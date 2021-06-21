@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -19,38 +17,49 @@ public class Client implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-
+	@NotNull
 	@Column
 	private String nome;
 
+	@NotNull
 	@Column(unique = true)
 	private String cpf;
 
 	@Column
+	@NotNull
 	private String cep;
 
 	@Column
+	@NotNull
 	private String logradouro;
 
 	@Column
+	@NotNull
 	private String bairro;
 
 	@Column
+	@NotNull
 	private String cidade;
 
 	@Column
+	@NotNull
 	private String uf;
 
 	@Column
 	private String complemento;
 
 	@Column
-	private String telefones;
+	private String Celular;
 
-	
+	@Column
+	private String Comercial;
+
+	@Column
+	private String Residencial;
+
+	@NotNull
 	@Column(unique = true)
 	private String email;
-	
 
 	public Long getId() {
 		return id;
@@ -84,7 +93,6 @@ public class Client implements Serializable {
 		this.cep = cep;
 	}
 
-	
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -125,12 +133,28 @@ public class Client implements Serializable {
 		this.complemento = complemento;
 	}
 
-	public String getTelefones() {
-		return telefones;
+	public String getCelular() {
+		return Celular;
 	}
 
-	public void setTelefones(String telefones) {
-		this.telefones = telefones;
+	public void setCelular(String Celular) {
+		this.Celular = Celular;
+	}
+
+	public String getComercial() {
+		return Comercial;
+	}
+
+	public void setComercial(String Comercial) {
+		this.Comercial = Comercial;
+	}
+
+	public String getResidencial() {
+		return Residencial;
+	}
+
+	public void setResidencial(String Residencial) {
+		this.Residencial = Residencial;
 	}
 
 	public String getEmail() {
