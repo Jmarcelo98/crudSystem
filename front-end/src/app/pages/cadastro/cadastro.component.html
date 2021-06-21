@@ -17,7 +17,7 @@
           <div class="col-md-6">
             <label class="form-label" for="nome">NOME</label>
             <input class="form-control form-control-lg" onkeypress="return event.charCode >= 58 || event.charCode <= 47"
-              pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" id="nome" minlength="3" maxlength="100"
+              pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" id="nome"
               formControlName="nome" placeholder="NOME" type="text"
               [ngClass]="{ 'is-invalid': submitted && f.nome.errors }">
 
@@ -55,18 +55,21 @@
 
           <div class="col-md-6">
 
-            <div *ngIf="tipoTelefone == 2; then residencial"></div> -->
+            <div *ngIf="tipoTelefone == 2; then residencial"></div>
 
             <label class="form-label" for="telefone">CELULAR</label>
 
-            <input class="form-control form-control-lg cel-sp-mask"
-              placeholder="Ex: (00) 00000-0000" type="text"
-              formControlName="celular" [ngClass]="{'is-invalid': submitted && telefoneInvalido}" >
+            <input class="form-control form-control-lg cel-sp-mask" placeholder="Ex: (00) 00000-0000" type="text"
+              formControlName="celular" [ngClass]="{'is-invalid': submitted && f.celular.erros || submitted && telefoneInvalido}">
+            <div *ngIf="submitted && f.celular.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.minlength">O numero de celular tem que ter 11 digitos</div>
+            </div>
 
             <label class="form-label" for="telefone">COMERCIAL</label>
 
-            <input class="form-control form-control-lg phone-ddd-mask"[ngClass]="{'is-invalid': submitted && f.telefones.errors}" placeholder="Ex: (00) 0000-0000" type="text"
-              formControlName="comercial" [ngClass]="{'is-invalid': submitted && telefoneInvalido}" >
+            <input class="form-control form-control-lg phone-ddd-mask"
+              [ngClass]="{'is-invalid': submitted && f.celular.errors}" placeholder="Ex: (00) 0000-0000" type="text"
+              formControlName="comercial" [ngClass]="{'is-invalid': submitted && telefoneInvalido}">
 
             <label class="form-label" for="telefone">RESIDENCIAL</label>
 
@@ -75,8 +78,7 @@
               formControlName="residencial">
 
 
-            <div *ngIf="submitted && telefoneInvalido"
-              class="invalid-feedback">
+            <div *ngIf="submitted && telefoneInvalido" class="invalid-feedback">
               <div *ngIf="telefoneInvalido">O campo telefone tem que ter no MINIMO 1 (UM) telefone cadastrado
               </div>
             </div>

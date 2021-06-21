@@ -20,11 +20,9 @@ export class CadastroComponent implements OnInit {
   pegandoCpf: string
 
   cadastroForm: FormGroup
-  /* telefones: FormArray
- */
+
   emailNaoPermitido: any
   cpfNaoPermitido: boolean
-
   telefoneInvalido: boolean = false;
 
   submitted = false
@@ -52,9 +50,9 @@ export class CadastroComponent implements OnInit {
 
 
     this.cadastroForm = this.formBuilder.group({
-      nome: [null, [Validators.required, Validators.minLength(3)]],
+      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       email: [null, [Validators.required, Validators.email]],
-      celular: [null],
+      celular: [null, [Validators.minLength(10)]],
       comercial: [null],
       residencial: [null],
       cpf: [null, [Validators.required, Validators.minLength(14)]],
@@ -70,21 +68,6 @@ export class CadastroComponent implements OnInit {
   get f() {
     return this.cadastroForm.controls
   }
-
-  /*   addItem(): void {
-      this.telefones = this.cadastroForm.get('telefones') as FormArray;
-      this.telefones.push(this.criarItem());
-    }
-
-    criarItem(): FormGroup {
-      return this.formBuilder.group({
-        telefone: [null, [Validators.required]]
-      });
-    }
-
-    removerItem(i:number) {
-      this.telefones.removeAt(i)
-    } */
 
   buscarEndereco(): void {
 
@@ -112,13 +95,13 @@ export class CadastroComponent implements OnInit {
 
     this.submitted = true
 
-    if (this.cadastroForm.get('celular').value == null && this.cadastroForm.get('comercial').value == null && this.cadastroForm.get('residencial').value == null) {
-      this.telefoneInvalido = true;
-    } else {
-      this.telefoneInvalido = false;
-    }
-
     if (this.cadastroForm.invalid) {
+
+      if (this.cadastroForm.get('celular').value == null && this.cadastroForm.get('comercial').value == null && this.cadastroForm.get('residencial').value == null) {
+        this.telefoneInvalido = true;
+      } else {
+        this.telefoneInvalido = false;
+      }
       return
     }
 
@@ -126,7 +109,8 @@ export class CadastroComponent implements OnInit {
       return
     }
 
-     if (this.cpfNaoPermitido == false && this.emailNaoPermitido == false && this.telefoneInvalido == false) {
+
+    if (this.cpfNaoPermitido == false && this.emailNaoPermitido == false && this.telefoneInvalido == false) {
       this.clienteService.cadastrar(this.cadastroForm.value).subscribe(
         data => {
           alert("Cliente cadastrado com sucesso")
