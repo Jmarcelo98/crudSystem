@@ -52,9 +52,9 @@ export class CadastroComponent implements OnInit {
     this.cadastroForm = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       email: [null, [Validators.required, Validators.email]],
-      celular: [null, [Validators.minLength(10)]],
-      comercial: [null],
-      residencial: [null],
+      celular: [null, [Validators.minLength(15)]],
+      comercial: [null, [Validators.minLength(14)]],
+      residencial: [null, Validators.minLength(13)],
       cpf: [null, [Validators.required, Validators.minLength(14)]],
       cep: [null, [Validators.required, Validators.minLength(8)]],
       logradouro: [null, Validators.required],
@@ -97,7 +97,8 @@ export class CadastroComponent implements OnInit {
 
     if (this.cadastroForm.invalid) {
 
-      if (this.cadastroForm.get('celular').value == null && this.cadastroForm.get('comercial').value == null && this.cadastroForm.get('residencial').value == null) {
+
+      if ((this.cadastroForm.get('celular').value == null || this.cadastroForm.get('celular').value == "") && (this.cadastroForm.get('comercial').value == null || this.cadastroForm.get('comercial').value == "") && (this.cadastroForm.get('residencial').value == null || this.cadastroForm.get('residencial').value == "")) {
         this.telefoneInvalido = true;
       } else {
         this.telefoneInvalido = false;
